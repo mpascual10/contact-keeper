@@ -1,9 +1,13 @@
 const express = require('express'); //brings in out express server
-
+const connectDB = require('./config/db');
 const app = express(); //initializes express in a variable
 
 //this is a test response for any incoming requests to localhost:5000
 //app.get('/', (req,res) => res.send('farting is nothing to be embarassed about'));
+
+//connect DATABASE
+connectDB();
+
 
 // sends a test response as a json
 app.get('/', (req,res) => res.json({

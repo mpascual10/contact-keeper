@@ -8,6 +8,10 @@ const app = express(); //initializes express in a variable
 //connect DATABASE
 connectDB();
 
+//init middleware
+//middle ware "express" to access json data
+app.use(express.json({ extended:false }));
+
 
 // sends a test response as a json
 app.get('/', (req,res) => res.json({

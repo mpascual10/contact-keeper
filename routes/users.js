@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const config = require('config');
 const {check, validationResult} = require('express-validator/check');
-
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 //@route    POST api/users
 //@desc     register user
@@ -44,7 +45,29 @@ router.post('/', [
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
-        res.send('user saved');
+        
+        //create payload , object you want to send in the token
+        //can access allthe content that is saved under this user
+        const payload = {
+
+            user:{
+                id: user.id
+            }
+
+        };
+
+        //to get a token we need to sign it
+        //has 4 params, the payload and the secret, an object of options, acallback with an error and the webtoken
+        //secret should be in a config folder
+        jwt.sign(payload, config.get('jwtSecret'), {
+            expiresIn: 360000
+        }, (err,token) => {
+
+            if(err) throw err;
+            res.json({token});
+
+        });
+
     }catch(err) {
         console.error(err.message);
         res.satus(500).send('server error');

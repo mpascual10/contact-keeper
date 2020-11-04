@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
-
+const auth = require('../middleware/auth');
 
 const {check, validationResult} = require('express-validator/check');
 const jwt = require('jsonwebtoken');
@@ -13,9 +13,21 @@ const User = require('../models/User');
 //@access   private
 
 // '/' pertains too api/auth since its declared as such in server.js
-router.get('/', (req, res) => {
+//adding middleware? put as second param before (req, res) ex .get('/', auth, (req,res))
+router.get('/', auth, async (req, res) => {
+    //test
+    //res.send('get logged in user');
 
-    res.send('get logged in user');
+    //if we send the correct token and logged in, the req object is going to have a user object attached to it with the current ID
+    // .select('-password') removes password from requested objects
+    try{
+        const user = await User.findById(req.user.id).select('-password');
+        res.json(user);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 
 });
 

@@ -30,10 +30,37 @@ router.get('/', auth, async (req, res) => {
 //@route    POST api/contacts
 //@desc     ADD new contacts
 //@access   private
-router.post('/', (req, res) => {
+//adding multiple middleware just put the in an [auth, check...]
+router.post('/', [auth,
+    check('name', ' Name is required').not().isEmpty()
+], async (req, res) => {
 
-    res.send('ADD contacts');
+    //res.send('ADD contacts');
 
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        //if errors isnt empty, returns a response with error code 400 and a json array of the triggered errors in the above set of rules
+        return res.status(400).json({errors:errors.array()});
+    }
+
+        const{name, email, phone, type} = req.body;
+
+        try{
+            const newContact = new Contact({
+                name,
+                email,
+                phone,
+                type,
+                user:req.user.id
+            });
+            const contact = await newContact.save();
+            res.json(contact);
+
+        }
+        catch(err){
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
 });
 
 //@route    PUT api/contacts

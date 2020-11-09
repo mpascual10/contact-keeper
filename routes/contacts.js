@@ -68,10 +68,41 @@ router.post('/', [auth,
 //@access   private
 
 // '/:id' pertains too api/contacts with the id of contacts 
-router.put('/:id', (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
-    res.send('UPDATE contact');
+    const{name, email, phone, type} = req.body;
 
+    //res.send('UPDATE contact');
+
+    //build contact object : to see if the following are submitted
+    const contactFields = {};
+
+    if(name) contactFields.name = name;
+    if(email) contactFields.email = email;
+    if(phone) contactFields.phone = phone;
+    if(type) contactFields.type = type;
+
+    try {
+        //how to game access to  id in router.put('/:id', use req.params.id
+        let contact =  await Contact.findById(req.params.id);
+
+        if(!contact) return res.status(404).json({msg: 'Contact not found.'})
+
+        //make sure user owns contact !!important
+        if(contact.user.toString() !== req.user.id)
+        {
+            return res.status(401).json({msg: 'Not authorized'});
+        }
+        //findbyID is a mongoose method
+        contact = await Contact.findByIdAndUpdate(req.params.id,
+            { $set: contactFields},
+            { new: true});
+
+        res.json(contact);
+    } catch (error) {
+        console.error(err.message);
+            res.status(500).send('Server Error');
+    }
 });
 
 
@@ -79,10 +110,28 @@ router.put('/:id', (req, res) => {
 //@desc     delete contact via id
 //@access   private
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
-    res.send('DELETE contacts');
+    //res.send('DELETE contacts');
+    try {
+        //how to game access to  id in router.put('/:id', use req.params.id
+        let contact =  await Contact.findById(req.params.id);
 
+        if(!contact) return res.status(404).json({msg: 'Contact not found.'})
+
+        //make sure user owns contact !!important
+        if(contact.user.toString() !== req.user.id)
+        {
+            return res.status(401).json({msg: 'Not authorized'});
+        }
+        //findbyID is a mongoose method
+        await Contact.findByIdAndRemove(req.params.id);
+
+        res.json({msg: 'Contact Removed'});
+    } catch (error) {
+        console.error(err.message);
+            res.status(500).send('Server Error');
+    }
 });
 
 

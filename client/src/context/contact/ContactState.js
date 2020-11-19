@@ -11,7 +11,7 @@ import {
     UPDATE_CONTACT,
     FILTER_CONTACT,
     CLEAR_FILTER
-} from '../types';
+} from '../Types';
 
 //takes in props
 const ContactState = props => {
@@ -66,14 +66,12 @@ const ContactState = props => {
     //clear filter
 
     //return provider ::::  wrap our application with this context
-
     return (
         //anything we want to access from other components goes in value eg. state, actions
         <ContactContext.Provider
         value={{
-            contacts:state.contacts
-        }}>
-            {props.children}
+            contacts: state.contacts
+        }}>{props.children}
         </ContactContext.Provider>
     )
 };

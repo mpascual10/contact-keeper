@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-import uuid from 'uuid';
+import {v4 as uuid} from 'uuid';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
 
@@ -20,7 +20,7 @@ const ContactState = props => {
 
             {
                 "type": "personal",
-                "_id": 1,
+                "id": 1,
                 "name": "Dwayne Johnson",
                 "email": "Djohnson@gmail.com",
                 "phone": "444-555-6666",
@@ -28,7 +28,7 @@ const ContactState = props => {
             },
             {
                 "type": "professional",
-                "_id": 2,
+                "id": 2,
                 "name": "Ted Johnson",
                 "email": "tjohnson@gmail.com",
                 "phone": "777-777-7777",
@@ -36,7 +36,7 @@ const ContactState = props => {
             },
             {
                 "type": "personal",
-                "_id": 3,
+                "id": 3,
                 "name": "Magic Johnson",
                 "email": "mjohnson@gmail.com",
                 "phone": "111-111-1111",
@@ -52,6 +52,17 @@ const ContactState = props => {
     const [state, dispatch] = useReducer(ContactReducer, initialState);
 
     //add contact
+    //takes in a contact
+    const addContact = contact =>
+    {
+        //uuid is a placeholder since were not yet updating mongo database
+        contact.id = uuid();
+        dispatch({
+            type: ADD_CONTACT,
+            payload: contact
+        });
+
+    }
 
     //delete contact
 
@@ -70,8 +81,10 @@ const ContactState = props => {
         //anything we want to access from other components goes in value eg. state, actions
         <ContactContext.Provider
         value={{
-            contacts: state.contacts
-        }}>{props.children}
+            contacts: state.contacts,
+            addContact
+        }}>
+        {props.children}
         </ContactContext.Provider>
     )
 };

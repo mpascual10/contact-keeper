@@ -5,7 +5,7 @@ import ContactState from '../../context/contact/ContactState';
 //passes in contact as a prop
 const ContactItem = ({contact}) => {
 
-    const {name, id, email, phone, type} = contact;
+    const {name, email, phone, type} = contact;
 
     return (
         <div className="card bg-light">

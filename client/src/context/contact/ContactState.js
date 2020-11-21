@@ -9,11 +9,15 @@ import {
     SET_ALERT,
     CLEAR_CURRENT,
     UPDATE_CONTACT,
-    FILTER_CONTACT,
-    CLEAR_FILTER
+    FILTER_CONTACTS,
+    CLEAR_FILTER,
+    SET_CURRENT
 } from '../Types';
 
 //takes in props
+//contacts: the hardcoded array of contacts
+//current: the object that is used for updating
+//filtered: array of filtered  contacts
 const ContactState = props => {
     const initialState = {
         contacts: [
@@ -43,7 +47,9 @@ const ContactState = props => {
                
             }
 
-        ]
+        ],
+        current: null,
+        filtered: null
     };
 
     //reducer hooks
@@ -61,30 +67,59 @@ const ContactState = props => {
             type: ADD_CONTACT,
             payload: contact
         });
-
     }
 
     //delete contact
-
     const deleteContact = id =>
     {
-
         dispatch({
             type: DELETE_CONTACT,
             payload: id
         });
-
     }
 
     //set current contact
+    const setCurrent = contact =>
+    {
+        dispatch({
+            type: SET_CURRENT,
+            payload: contact
+        });
+    }
 
     //clear current contact
+    const clearCurrent = () =>
+    {
+        dispatch({
+            type: CLEAR_CURRENT
+        });
+    }
 
     //update contact
+    const updateContact = contact =>
+    {
+        dispatch({
+            type: UPDATE_CONTACT,
+            payload: contact
+        });
+    }
 
     //filter contact
+    const filterContacts = text =>
+    {
+        dispatch({
+            type: FILTER_CONTACTS,
+            payload: text
+        });
+    }
 
     //clear filter
+    const clearFilter = () =>
+    {
+        dispatch({
+            type: CLEAR_FILTER
+        });
+    }
 
     //return provider ::::  wrap our application with this context
     return (
@@ -92,8 +127,15 @@ const ContactState = props => {
         <ContactContext.Provider
         value={{
             contacts: state.contacts,
+            current: state.current,
+            filtered: state.filtered,
             addContact,
-            deleteContact
+            deleteContact,
+            setCurrent,
+            clearCurrent,
+            updateContact,
+            filterContacts,
+            clearFilter
         }}>
         {props.children}
         </ContactContext.Provider>

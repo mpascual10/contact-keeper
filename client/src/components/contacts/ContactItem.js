@@ -1,19 +1,20 @@
 import React, {createContext, useContext} from 'react';
 import PropTypes from 'prop-types';
 import ContactContext from '../../context/contact/contactContext';
+import { SET_CURRENT } from '../../context/Types';
 
 //passes in contact as a prop
 const ContactItem = ({contact}) => {
 
     const contactContext = useContext(ContactContext);
     const {id, name, email, phone, type} = contact;
-    const {deleteContact} = contactContext;
+    const {deleteContact, setCurrent, clearCurrent} = contactContext;
 
     const onDelete = () => {
-
         deleteContact(id);
-
+        clearCurrent();
     }
+
 
     return (
         <div className="card bg-light">
@@ -37,7 +38,7 @@ const ContactItem = ({contact}) => {
                           )}
             </ul>
             <p>
-                <button className='btn btn-dark btn-sm'>Edit</button>
+                <button className='btn btn-dark btn-sm' onClick={() => setCurrent(contact)}>Edit</button>
                 <button className='btn btn-danger btn-sm' onClick={onDelete} >Delete</button>
             </p>
         </div>

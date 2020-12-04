@@ -1,12 +1,35 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
 
-const Register = () => {
+
+const Register = props => {
 
     const alertContext = useContext(AlertContext);
+    const authContext = useContext(AuthContext);
+
 
     const {setAlert} = alertContext;
+    const {register, error, clearErrors, isAuthenticated} = authContext;
+
+    //added [error] as a dependency to use effect so it shows when error is added to state
+    useEffect(() => {
+
+        if(isAuthenticated)
+        {
+            //if authenticated redirect to dashboard
+            //error props not defined, fixed by passing props through const Register = props =>
+            props.history.push('/');
+        }
+
+        if(error === 'User already exists')
+        {
+            setAlert(error, 'danger')
+            clearErrors();
+        }
+    // eslint-disable-next-line
+    }, [error, isAuthenticated, props.history]);
 
     const [user, setUser] = useState({
 
@@ -35,9 +58,13 @@ const Register = () => {
             setAlert('Passwords do not match', 'danger');
         }
         else{
-            console.log('Register Submit');
+            register({
+                name,
+                email,
+                password
+            });
         }
-    }
+    };
 
     return (
         <div className='form-container'>

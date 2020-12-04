@@ -6,7 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import {
     SET_ALERT,
     REMOVE_ALERT
-} from '../types';
+} from '../Types';
 
 //takes in props
 //token is stored in local storage, and used the method getitem 'token' to get the token
@@ -41,14 +41,14 @@ const AlertState = props => {
         <AlertContext.Provider
         value={{
             
-            Alerts: state,
+            alerts: state,
             setAlert
             
             
         }}>
         {props.children}
         </AlertContext.Provider>
-    )
+    );
 };
 
 //IN ORDER TO USE THIS YOU NEED TO WRAP YOUR APPLICATION

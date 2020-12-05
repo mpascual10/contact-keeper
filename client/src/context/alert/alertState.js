@@ -6,7 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import {
     SET_ALERT,
     REMOVE_ALERT
-} from '../Types';
+} from '../types';
 
 //takes in props
 //token is stored in local storage, and used the method getitem 'token' to get the token

@@ -1,7 +1,7 @@
-import React, {createContext, useContext} from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import ContactContext from '../../context/contact/contactContext';
-import { SET_CURRENT } from '../../context/Types';
+import { SET_CURRENT } from '../../context/types';
 
 //passes in contact as a prop
 const ContactItem = ({contact}) => {

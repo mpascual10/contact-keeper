@@ -13,7 +13,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     CLEAR_ERRORS
-} from '../Types';
+} from '../types';
 
 //takes in props
 //token is stored in local storage, and used the method getitem 'token' to get the token

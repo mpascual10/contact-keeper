@@ -7,7 +7,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     CLEAR_ERRORS
-} from '../Types';
+} from '../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {

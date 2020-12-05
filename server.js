@@ -15,11 +15,11 @@ app.use(express.json({ extended:false }));
 
 
 // sends a test response as a json
-app.get('/', (req,res) => res.json({
+//app.get('/', (req,res) => res.json({
 
-    msg: 'farting is okay, i promise'
+   // msg: 'farting is okay, i promise'
 
-}));
+//}));
 
 //define ROUTES
 

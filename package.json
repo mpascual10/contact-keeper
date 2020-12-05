@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Contact Manager App",
   "main": "server.js",
+  "engines": {
+  "node": "14.4.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon",
     "client": "npm start --prefix client",

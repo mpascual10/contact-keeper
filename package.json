@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Contact Manager App",
   "main": "server.js",
-  "engines": {
-  "node": "14.4.0"
-  },
+
   "scripts": {
     "start": "node server.js",
     "server": "nodemon",

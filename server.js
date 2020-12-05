@@ -36,7 +36,8 @@ if(process.env.NODE_ENV === 'production')
 
     //app.get('*') is get anything that isnt above
     //resolve method looks in '__dirname' current directory, then 'client''build' build folder then loads index
-    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname,'client', 'build', 'index.html')));
+    app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')));
 }
 
 const PORT = process.env.PORT || 5000; //looks for environment variable called port first that used in production //dev uses 5000
